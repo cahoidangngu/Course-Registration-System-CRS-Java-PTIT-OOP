@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Student extends User implements StudentInterface{
@@ -82,6 +83,12 @@ public class Student extends User implements StudentInterface{
                 }
                 if(!check)System.out.println("Number Of Student Register Are Full\n");
                 else System.out.println("Sucessfully register student to course\n");
+                try{
+                    CrsData.sequelizeCourseStudent();
+                    CrsData.desequelizeCourseStudent();
+                }catch (IOException e){
+                    throw new RuntimeException(e);
+                }
                 return;
             }
         }
@@ -128,6 +135,12 @@ public class Student extends User implements StudentInterface{
                 course.removeStudentRegisterList(this.getName());
                 if(course.getCurrentStudentsRegister()==0)CrsData.removeCourseStudent(courseId);
                 System.out.println("Sucessfully withdraw student from course\n");
+                try{
+                    CrsData.sequelizeCourseStudent();
+                    CrsData.desequelizeCourseStudent();
+                }catch (IOException e){
+                    throw new RuntimeException(e);
+                }
                 return;
             }
         }

@@ -1,4 +1,4 @@
-import java.io.IOException;
+
 
 public interface AdminInterface {
     public void creatCourse();

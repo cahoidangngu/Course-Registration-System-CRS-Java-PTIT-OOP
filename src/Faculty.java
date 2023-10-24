@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Faculty extends User implements FacultyInterface{
@@ -49,6 +50,12 @@ public class Faculty extends User implements FacultyInterface{
                 Course newCourseFaculty = new Course(c, this.getName());
                 CrsData.getCourseFaculty().add(newCourseFaculty);
                 System.out.println("Successfull Register To Course\n");
+                try{
+                    CrsData.sequelizeCourseFaculty();
+                    CrsData.desequelizeCourseFaculty();
+                }catch (IOException e){
+                    throw new RuntimeException(e);
+                }
                 return;
             }
         }
@@ -92,6 +99,12 @@ public class Faculty extends User implements FacultyInterface{
         if(CrsData.getCourseFaculty().stream().anyMatch(cf->courseName.equals(cf.getCourseName())&&courseId.equals(cf.getCourseId()))){
             CrsData.removeCourseFaculty(courseId);
             System.out.println("Successfull Withdraw From Course\n");
+            try{
+                CrsData.sequelizeCourseFaculty();
+                CrsData.desequelizeCourseFaculty();
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
             return;
         }
         

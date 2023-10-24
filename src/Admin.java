@@ -37,6 +37,13 @@ public class Admin extends User implements AdminInterface{
         Course course = new Course(courseId.trim(), courseName.trim(), courseSection, courseLocation.trim(), courseMaxNumber);
 
         CrsData.getCourse().add(course);
+        try {
+            CrsData.sequelizeCourse();
+            CrsData.desequelizeCourse();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         System.out.println();
     }
 
@@ -57,6 +64,12 @@ public class Admin extends User implements AdminInterface{
         }
         
         CrsData.removeCourse(courseId);
+        try {
+            CrsData.sequelizeCourse();
+            CrsData.desequelizeCourse();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println();
     }
 
@@ -104,6 +117,12 @@ public class Admin extends User implements AdminInterface{
                     if (choice == 4) {
                         CrsData.updateCourse(c);
                         System.out.println("Successfully update course");
+                        try {
+                            CrsData.sequelizeCourse();
+                            CrsData.desequelizeCourse();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                         break;
                     }
                     System.out.println("=========================");
@@ -157,6 +176,12 @@ public class Admin extends User implements AdminInterface{
         if(CrsData.getStudents().stream().noneMatch(s->student.getName().equals(s.getName()))){
                 CrsData.getStudents().add(student);
                 System.out.println("Successfully Register Student\n");
+                try{
+                    CrsData.sequelizeUser();
+                    CrsData.desequelizeUser();
+                }catch (IOException e){
+                    throw new RuntimeException(e);
+                }
         }
         
         System.out.println("=========================");
@@ -190,9 +215,15 @@ public class Admin extends User implements AdminInterface{
         
         Faculty faculty = new Faculty(firstName, midName, lastName, username, passowrd);
         
-       if(CrsData.getStudents().stream().noneMatch(s->faculty.getName().equals(s.getName()))){
+       if(CrsData.getFacultys().stream().noneMatch(s->faculty.getName().equals(s.getName()))){
                 CrsData.getFacultys().add(faculty);
                 System.out.println("Successfully Register Faculty\n");
+           try{
+               CrsData.sequelizeUser();
+               CrsData.desequelizeUser();
+           }catch (IOException e){
+               throw new RuntimeException(e);
+           }
         }
         
         System.out.print("Register Faculty To Course ?\n");
